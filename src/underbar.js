@@ -99,10 +99,29 @@
   _.reject = function(collection, test) {
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
+
+    return _.filter(collection, function(q) {return ! test(q);});
   };
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
+
+      var result = [];
+
+      for (var i = 0; i < array.length; i++) {
+        var found = false;
+        var j = 0;
+        while (!found && j < result.length) {
+          if (array[i] == result[j])
+            found = true;
+          else j = j+1;
+        }
+        if (!found)
+          result.push(array[i]);
+      }
+
+      return result;
+
   };
 
 
