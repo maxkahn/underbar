@@ -362,6 +362,23 @@
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
+    var input = array.slice();
+    var choices = [];
+    var dict = {};
+    var result = [];
+    while (choices.length < array.length) {
+      var ind = Math.floor(Math.random() * array.length);
+      if (!_.contains(choices, ind)) {
+        choices.push(ind);
+      }
+    }
+    for (var i = 0; i < choices.length; i++) {
+      dict[i] = input[choices[i]];
+    }
+    for (var j = 0; j < choices.length; j++) {
+      result[j] = dict[j];
+    }
+    return result;
   };
 
 
