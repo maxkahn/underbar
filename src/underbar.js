@@ -361,6 +361,10 @@
   // TIP: This function's test suite will ask that you not modify the original
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
+
+  //Note: this function occasionally fails the test "should not be in the same order as original".
+  //Any *randomization* will occasionally fail that test; fixes would be artificial.
+  //Example: array.length == 1. Then _.shuffle(array) should equal array.
   _.shuffle = function(array) {
     var input = array.slice();
     var choices = [];
