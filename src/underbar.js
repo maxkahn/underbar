@@ -317,6 +317,21 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+    var dict = {};
+    var result;
+
+    return function() {
+      var args = [];
+      for (var i = 0; i< arguments.length; i++) {
+        args.push(arguments[i]);
+      }
+      if (dict[args] == undefined) {
+        result = func.apply(this, args);
+        dict[args] = result;
+      }
+
+      return dict[args];
+    };
   };
 
   // Delays a function for the given number of milliseconds, and then calls
