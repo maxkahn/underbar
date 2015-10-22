@@ -226,6 +226,13 @@
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+    //If no callback provided, _.identity used as callback.
+    if (arguments[1] == undefined) {
+      return _.some(collection, _.identity);
+    }
+    else {
+          return !_.every(collection, function(item) {return !iterator(item);});
+        }
   };
 
 
