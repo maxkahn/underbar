@@ -321,6 +321,7 @@
     var result;
 
     return function() {
+      //args is a dummy variable to handle arguments scope issues.
       var args = [];
       for (var i = 0; i< arguments.length; i++) {
         args.push(arguments[i]);
@@ -341,6 +342,12 @@
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
+    //args stores only the arguments to pass to func
+    var args = [];
+    for (var i = 2; i < arguments.length; i++) {
+      args.push(arguments[i]);
+    }
+    window.setTimeout(function() {return func.apply(this, args);}, wait);
   };
 
 
