@@ -90,7 +90,7 @@
       _.each(collection, function(item) {
         if (test(item))
           result.push(item);
-      })
+      });
 
       return result;
   };
@@ -397,6 +397,9 @@
   // Calls the method named by functionOrKey on each value in the list.
   // Note: You will need to learn a bit about .apply to complete this.
   _.invoke = function(collection, functionOrKey, args) {
+    return _.map(collection, function(item) {
+      return functionOrKey.apply(item, args);
+    });
   };
 
   // Sort the object's values by a criterion produced by an iterator.
