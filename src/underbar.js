@@ -436,6 +436,7 @@
       }
       pairs.sort(function(a, b) {return a[1] - b[1];});
       var result = _.map(pairs, function(arr) {return arr[0];});
+      //undefined values added to the end
       return result.concat(junk);
   };
 
@@ -445,6 +446,18 @@
   // Example:
   // _.zip(['a','b','c','d'], [1,2,3]) returns [['a',1], ['b',2], ['c',3], ['d',undefined]]
   _.zip = function() {
+    var result = [];
+    var result_length = _.reduce(_.map(arguments, function(a) {
+      return a.length;
+    }), Math.max);
+    for (var i = 0; i < result_length; i++) {
+      var storage = [];
+      for (var j = 0; j < result_length; j++) {
+        storage.push(arguments[j][i]);
+      }
+      result.push(storage);
+    }
+    return result;
   };
 
   // Takes a multidimensional array and converts it to a one-dimensional array.
