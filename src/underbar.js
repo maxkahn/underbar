@@ -414,7 +414,20 @@
   // of that string. For example, _.sortBy(people, 'name') should sort
   // an array of people by their name.
   _.sortBy = function(collection, iterator) {
-      var range = _.map(collection, function(obj) {
+      var range;
+      var junk = [];
+      for (var j = 0; j < collection.length; j++) {
+        if (collection[j] == undefined)
+          junk.push(undefined);
+      }
+      collection = _.reject(collection, function(a) {
+          return a == undefined;
+          });
+      if (collection.length == 0)
+        return [];
+      else if (collection[0][iterator] == undefined)
+        range = _.map(collection, iterator);
+      else range = _.map(collection, function(obj) {
         return obj[iterator];
       });
       var pairs = [];
@@ -422,7 +435,8 @@
         pairs.push([collection[i], range[i]]);
       }
       pairs.sort(function(a, b) {return a[1] - b[1];});
-      return _.map(pairs, function(arr) {return arr[0];});
+      var result = _.map(pairs, function(arr) {return arr[0];});
+      return result.concat(junk);
   };
 
   // Zip together two or more arrays with elements of the same index
