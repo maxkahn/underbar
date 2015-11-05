@@ -398,7 +398,14 @@
   // Note: You will need to learn a bit about .apply to complete this.
   _.invoke = function(collection, functionOrKey, args) {
     return _.map(collection, function(item) {
-      return functionOrKey.apply(item, args);
+      if (item[functionOrKey] == undefined) {
+        return functionOrKey.apply(item, args);
+      }
+      else
+        var f = function () {
+          return item[functionOrKey] (arguments);
+        };
+        return f.apply(item, args);
     });
   };
 
