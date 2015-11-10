@@ -464,16 +464,6 @@
   // The new array should contain all elements of the multidimensional array.
   //
   // Hint: Use Array.isArray to check if something is an array
-  /*_.flatten = function(nestedArray, result) {
-    var flat = [];
-    if (Array.isArray(nestedArray)) {
-      _.each(nestedArray, _.flatten);
-    }
-    else flat.push(nestedArray);
-    return flat;
-  };
-  */
-
   _.flatten = function(nestedArray, result) {
     var mapcat = function(collection, iterator) {
       var catted = [];
@@ -548,5 +538,34 @@
   //
   // Note: This is difficult! It may take a while to implement.
   _.throttle = function(func, wait) {
+
+    var subargs = [];
+    for (var i = 2; i < arguments.length; i++) {
+      subargs.push(arguments[i]);
+    }
+    //scope issue; information that slowfunc has
+    //on each invocation has to be on the outside
+    var date = new Date();
+    var lastCalled = date.getTime();
+    var result;
+
+    var slowfunc = function() {
+
+      var innerDate = new Date();
+      var invokeDate = innerDate.getTime();
+
+      if (invokeDate - lastCalled > wait) {
+        lastCalled = invokeDate;
+        result = func.apply(subargs);
+        return result;
+      }
+      else {
+        lastCalled = invokeDate;
+        return result;
+      }
+
+    };
+
+    return slowfunc;
   };
 }());
