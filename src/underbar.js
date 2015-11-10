@@ -475,11 +475,18 @@
   */
 
   _.flatten = function(nestedArray, result) {
-    if (Array.isArray(nestedArray)) {
-      _.reduce(nestedArray, _.flatten, [])
-    }
-    else return nestedArray;
-  };
+    var mapcat = function(collection, iterator) {
+      var result = [];
+      var newcollection = _.map(collection, iterator);
+      _.each(newcollection, function(arr) {
+        for (var i = 0; i < arr.length; i++) {
+          result.push(arr[i]);
+        }
+      });
+      return result;
+      };
+    };
+
 
   // Takes an arbitrary number of arrays and produces an array that contains
   // every item shared between all the passed-in arrays.
