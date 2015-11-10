@@ -464,17 +464,65 @@
   // The new array should contain all elements of the multidimensional array.
   //
   // Hint: Use Array.isArray to check if something is an array
+  /*_.flatten = function(nestedArray, result) {
+    var flat = [];
+    if (Array.isArray(nestedArray)) {
+      _.each(nestedArray, _.flatten);
+    }
+    else flat.push(nestedArray);
+    return flat;
+  };
+  */
+
   _.flatten = function(nestedArray, result) {
+    if (Array.isArray(nestedArray)) {
+      _.reduce(nestedArray, _.flatten, [])
+    }
+    else return nestedArray;
   };
 
   // Takes an arbitrary number of arrays and produces an array that contains
   // every item shared between all the passed-in arrays.
+
   _.intersection = function() {
+    var result = [];
+    for (var i = 0; i < arguments[0].length; i++) {
+
+      //scope issue with arguments in inner function;
+      //define a variable here
+      var target = arguments[0][i];
+      if (_.every(arguments, function(arr) {
+        return _.contains(arr, target);
+      }))
+        result.push(target);
+    }
+    return result;
   };
 
   // Take the difference between one array and a number of other arrays.
   // Only the elements present in just the first array will remain.
   _.difference = function(array) {
+    var result = [];
+    var rest = function(arr) {
+      var ret = [];
+      for (var j = 1; j < arr.length; j++) {
+        ret.push(arr[j]);
+      }
+      return ret;
+    };
+
+    //check each argument after array,
+    //and if an array element appears in none of them
+    //then add to the result array.
+    for (var i = 0; i < array.length; i++) {
+      if (_.every(rest(arguments), function(arr) {
+        return ! _.contains(arr, array[i]);
+      })) {
+        result.push(array[i]);
+      }
+    }
+
+    return result;
   };
 
   // Returns a function, that, when invoked, will only be triggered at most once
