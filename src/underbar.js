@@ -489,6 +489,8 @@
       if (Array.isArray(nestedArray))
         return mapcat(nestedArray, _.flatten);
       else {
+        //mapcat concatenates arrays, so even
+        //non-array elements are wrapped in arrays
         var placeholder = [];
         placeholder.push(nestedArray);
         return placeholder;
