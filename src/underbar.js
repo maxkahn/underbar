@@ -547,7 +547,7 @@
     //on each invocation has to be on the outside
     var date = new Date();
     var lastCalled = date.getTime();
-    var result;
+    var result = func.apply(this, subargs);
 
     var slowfunc = function() {
 
@@ -556,16 +556,24 @@
 
       if (invokeDate - lastCalled > wait) {
         lastCalled = invokeDate;
-        result = func.apply(subargs);
+        result = func.apply(this, subargs);
+
+        //always returns most recently computed value
         return result;
       }
       else {
-        lastCalled = invokeDate;
+        //always returns most recently computed value
         return result;
+
+        //schedule a new call
+        _.delay(func, lastCalled + wait - invokeDate);
+
       }
 
     };
 
     return slowfunc;
   };
+
+
 }());
